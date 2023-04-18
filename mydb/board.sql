@@ -43,10 +43,33 @@ WHERE bno = 2;
 -- 3번 게시글을 삭제하시오
 -- DELETE FROM 테이블이름 WHERE 절
 DELETE FROM board WHERE bno =3;
+--재귀 복사(자료삽입
+---INSERT INTO(칼럼)(SELECT 칼럼 FROM 테이블이름)
+INSERT INTO board(bno, title, writer, content)
+(SELECT seq.nextval, title, writer, content FROM board);
+
+select ROWNUM, bno, title, content  from board
+where rownum > 0 and rownum <= 20;
+
+--페이지 처리 ROWNUM 중요!!!!
+SELECT *
+FROM
+(SELECT ROWNUM rn, bno, title, content
+FROM board)
+WHERE RN >=11 AND rN <= 20;
+
+--ROWID
+--데이터를 구분하는 유일한 값
+-- ROWID를 통해서 데이터 파일, 어느 블럭에 저장되어 있는 지 알수 있음
+SELECT ROWID, bno, title, content
+FROM board;
+
+SELECT ROWID, bno, title, content
+FROM board
+WHERE ROWID = 'AAAS1dAABAAAgUJAAA';
 
 
 --시퀀스 삭제
 DROP SEQUENCE seq;
 --테이블 삭제
 DROP TABLE board;
-
